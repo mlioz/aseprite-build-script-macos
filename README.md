@@ -1,6 +1,6 @@
 # Aseprite macOS Build Script
 
-A clean, reproducible shell script to **build Aseprite from source on macOS** using **official prebuilt Skia binaries**, producing a ready-to-run `Aseprite.app`.
+Shell script to **build Aseprite from source on macOS** using **official prebuilt Skia binaries**, producing a ready-to-run `Aseprite.app`.
 
 ## What This Script Does
 
