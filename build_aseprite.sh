@@ -5,18 +5,18 @@ set -euo pipefail
 ### Configuration
 ### ------------------------------
 
+readonly ARCH="$(uname -m)"
 readonly REPO_URL="https://github.com/aseprite/aseprite.git"
 readonly REPO_DIR="source"
 
-readonly SKIA_URL="https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-macOS-Release-arm64.zip"
-readonly SKIA_DIR="Skia-macOS-Release-arm64"
+readonly SKIA_URL="https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-macOS-Release-$ARCH.zip"
+readonly SKIA_DIR="Skia-macOS-Release-$ARCH"
 readonly SKIA_ZIP="${SKIA_DIR}.zip"
 
 readonly BUILD_DIR="build"
 readonly APP_NAME="Aseprite.app"
 
 readonly SDKROOT="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-readonly ARCH="$(uname -m)"
 
 ### ------------------------------
 ### Helper functions
@@ -32,6 +32,19 @@ require_cmd() {
 log() {
   printf "%s\n" "$1"
 }
+
+case "$ARCH" in
+  arm64)
+    SKIA_ARCH="arm64"
+    ;;
+  x86_64)
+    SKIA_ARCH="x64"
+    ;;
+  *)
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+    ;;
+esac
 
 ### ------------------------------
 ### Dependency checks
