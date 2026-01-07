@@ -6,7 +6,8 @@ set -euo pipefail
 ### ------------------------------
 
 readonly ARCH="$(uname -m)"
-readonly REPO_URL="https://github.com/aseprite/aseprite.git"
+readonly REPO_URL="https://github.com/aseprite/aseprite/releases/download/v1.3.16/Aseprite-v1.3.16.1-Source.zip"
+readonly REPO_ZIP="Aseprite-v1.3.16.1-Source.zip"
 readonly REPO_DIR="source"
 
 readonly SKIA_URL="https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-macOS-Release-$ARCH.zip"
@@ -61,11 +62,12 @@ done
 ### ------------------------------
 
 if [[ ! -d "$REPO_DIR/.git" ]]; then
-  log "Cloning Aseprite repository..."
-  git clone --progress "$REPO_URL" "$REPO_DIR"
+  log "Downloading Aseprite repository..."
+  curl -L --progress-bar -o "$REPO_ZIP" "$REPO_URL"
 
-  log "Initializing submodules..."
-  git -C "$REPO_DIR" submodule update --init --recursive --progress
+  mkdir -p "$REPO_DIR"
+  unzip -q "$REPO_ZIP" -d "$REPO_DIR"
+  rm -f "$REPO_ZIP"
 else
   log "Aseprite repository already exists."
 fi
